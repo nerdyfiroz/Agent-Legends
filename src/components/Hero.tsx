@@ -121,7 +121,7 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick }) => {
               <div className="relative overflow-hidden rounded-3xl border border-white/[0.1] bg-[#111321] shadow-2xl shadow-black/80 transition-all duration-500 hover:border-[#8957FF]/50 hover:shadow-[#8957FF]/20">
                 <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] overflow-hidden bg-[#080910]">
                   <img
-                    src="/src/assets/images/agent_hero_cyber_warrior_1794084223199.jpg"
+                    src="/assets/images/agent_hero_cyber_warrior_1794084223199.jpg"
                     alt="Agent Legends Prime Cyber Warrior"
                     referrerPolicy="no-referrer"
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"

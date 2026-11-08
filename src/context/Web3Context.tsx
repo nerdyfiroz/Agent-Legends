@@ -85,10 +85,10 @@ const Web3Context = createContext<Web3ContextValue | undefined>(undefined);
 const STORAGE_KEY = 'agent_legends_state_v2';
 
 const ARTWORK_POOL = [
-  '/src/assets/images/agent_hero_cyber_warrior_1794084223199.jpg',
-  '/src/assets/images/legend_valkyrie_ai_1794084222295.jpg',
-  '/src/assets/images/legend_titan_mech_1794084224724.jpg',
-  '/src/assets/images/legend_phantom_scout_1794084224734.jpg',
+  '/assets/images/agent_hero_cyber_warrior_1794084223199.jpg',
+  '/assets/images/legend_valkyrie_ai_1794084222295.jpg',
+  '/assets/images/legend_titan_mech_1794084224724.jpg',
+  '/assets/images/legend_phantom_scout_1794084224734.jpg',
 ];
 
 const CLASSES: CharacterClass[] = [

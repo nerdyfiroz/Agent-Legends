@@ -37,17 +37,29 @@
 
 ---
 
-## 4. Full-Stack Production Startup
+## 4. Full-Stack Production Startup (Node.js & Next.js)
 ```bash
-# Install dependencies
+# Install dependencies with Node.js / npm
 npm install
 
 # Run automated smart contract test suite
 npm run test
 
-# Build production bundle
+# Build production bundle (Next.js App Router)
 npm run build
 
-# Start full-stack Node.js server with live event indexer
+# Start full-stack Node.js server
 npm run start
 ```
+
+---
+
+## 5. Vercel & GitHub Deployment Instructions
+When deploying to Vercel or any Node.js hosting platform:
+1. **Framework Preset**: Select **Next.js** (Vercel will auto-detect Next.js from `package.json`).
+2. **Node.js Version**: Node 20.x or 22.x (configured in `engines`).
+3. **Build Command**: `next build` (configured in `npm run build`).
+4. **Lockfile**: Uses standard `package-lock.json` with npm / Node.
+5. **Vite Removed**: All Vite plugins, Vite configs (`vite.config.ts`), and legacy express server wrappers have been removed in favor of native Next.js App Router API routes (`src/app/api/...`).
+6. **TypeScript**: Uses stable production TypeScript `^5.8.2` (preventing any `@vercel/backends` reading errors caused by experimental versions).
+
