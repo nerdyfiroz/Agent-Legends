@@ -27,6 +27,7 @@ function MainApp() {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [agentModalOpen, setAgentModalOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedNft, setSelectedNft] = useState<AgentLegendNFT | null>(null);
 
   const handleSelectNft = (nft: AgentLegendNFT) => {
@@ -35,6 +36,7 @@ function MainApp() {
 
   const navigateToTab = (tab: NavTab) => {
     setActiveTab(tab);
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -46,6 +48,8 @@ function MainApp() {
         setActiveTab={navigateToTab}
         onOpenWalletModal={() => setWalletModalOpen(true)}
         onOpenAgentModal={() => setAgentModalOpen(true)}
+        mobileMenuOpen={mobileMenuOpen}
+        onMobileMenuToggle={setMobileMenuOpen}
       />
 
       {/* Main View Router with mobile padding */}
@@ -114,11 +118,13 @@ function MainApp() {
         {activeTab === 'admin' && <AdminView />}
       </main>
 
-      {/* Floating Sticky Mobile Mint CTA Bar */}
-      <MobileStickyMintBar
-        onMintClick={() => navigateToTab('genesis')}
-        activeTab={activeTab}
-      />
+      {/* Floating Sticky Mobile Mint CTA Bar - hidden when mobile menu or modal is open */}
+      {!mobileMenuOpen && !walletModalOpen && !agentModalOpen && !selectedNft && (
+        <MobileStickyMintBar
+          onMintClick={() => navigateToTab('genesis')}
+          activeTab={activeTab}
+        />
+      )}
 
       {/* Footer */}
       <Footer />

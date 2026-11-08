@@ -271,7 +271,7 @@ export const AgentIdentityCardCreator: React.FC = () => {
   };
 
   return (
-    <div className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+    <div className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 overflow-hidden">
       {/* Header */}
       <div className="border-b border-white/[0.08] pb-5">
         <div className="inline-flex items-center gap-2 rounded-full border border-[#36BFFF]/30 bg-[#36BFFF]/10 px-3.5 py-1 text-xs font-mono font-semibold text-[#36BFFF] mb-2">
@@ -377,12 +377,12 @@ export const AgentIdentityCardCreator: React.FC = () => {
               </span>
               <span className="text-[10px] text-emerald-400 font-bold">LIVE ON-CHAIN</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 min-w-0">
               <input
                 type="text"
                 readOnly
                 value={publicUrl}
-                className="w-full bg-[#111321] text-xs font-mono text-white/90 px-3 py-2 rounded-xl border border-white/[0.06] select-all focus:outline-none"
+                className="min-w-0 flex-1 bg-[#111321] text-xs font-mono text-white/90 px-3 py-2 rounded-xl border border-white/[0.06] select-all focus:outline-none truncate"
               />
               <button
                 type="button"
@@ -455,10 +455,10 @@ export const AgentIdentityCardCreator: React.FC = () => {
         </div>
 
         {/* Right Column: Mobile-Ready Social Card Preview */}
-        <div className="lg:col-span-6 flex justify-center">
-          <div className="w-full max-w-[340px] sm:max-w-[380px] relative group">
+        <div className="lg:col-span-6 flex justify-center overflow-hidden sm:overflow-visible">
+          <div className="w-full max-w-[305px] xs:max-w-[340px] sm:max-w-[380px] min-w-0 relative group">
             {/* Outer Aura */}
-            <div className="absolute -inset-2 rounded-[36px] bg-gradient-to-tr from-[#8957FF]/35 via-[#36BFFF]/20 to-[#F2C46D]/30 blur-2xl opacity-75"></div>
+            <div className="pointer-events-none absolute -inset-1 sm:-inset-2 rounded-[36px] bg-gradient-to-tr from-[#8957FF]/35 via-[#36BFFF]/20 to-[#F2C46D]/30 blur-xl sm:blur-2xl opacity-75"></div>
 
             {/* The Badge Card Surface */}
             <div className="relative rounded-[30px] border border-white/[0.15] bg-[#0C0E1A] p-5 sm:p-6 shadow-2xl shadow-black overflow-hidden tactical-box">

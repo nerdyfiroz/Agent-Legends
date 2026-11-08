@@ -49,6 +49,7 @@ export const MobileStickyMintBar: React.FC<MobileStickyMintBarProps> = ({
 
         {/* Right CTA Button: 48px touch target */}
         <button
+          type="button"
           onClick={() => {
             sound.playClick();
             onMintClick();

@@ -83,7 +83,7 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
   };
 
   return (
-    <section className="relative py-12 sm:py-20 bg-[#07110e] border-t section-rule">
+    <section className="relative py-12 sm:py-20 bg-[#07110e] border-t section-rule overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -105,15 +105,17 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
             {/* Mobile swipe controls */}
             <div className="flex sm:hidden items-center gap-2">
               <button
+                type="button"
                 onClick={handleScrollLeft}
-                className="touch-target-min flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#111321] text-white active:bg-[#171A2B] cursor-pointer"
+                className="touch-target-min flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#111321] text-white active:bg-[#171A2B] active:scale-95 transition-all cursor-pointer"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
+                type="button"
                 onClick={handleScrollRight}
-                className="touch-target-min flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#111321] text-white active:bg-[#171A2B] cursor-pointer"
+                className="touch-target-min flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#111321] text-white active:bg-[#171A2B] active:scale-95 transition-all cursor-pointer"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -121,11 +123,12 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
             </div>
 
             <button
+              type="button"
               onClick={() => {
                 sound.playClick();
                 onViewAllClick();
               }}
-              className="touch-target-min inline-flex items-center gap-2 rounded-2xl border border-white/[0.1] bg-[#111321] px-5 py-3 text-xs font-semibold text-white hover:border-[#8957FF]/60 hover:bg-[#171A2B] transition-all cursor-pointer shadow-lg shadow-black/40"
+              className="touch-target-min inline-flex items-center gap-2 rounded-2xl border border-white/[0.1] bg-[#111321] px-5 py-3 text-xs font-semibold text-white hover:border-[#8957FF]/60 hover:bg-[#171A2B] active:scale-95 transition-all cursor-pointer shadow-lg shadow-black/40"
             >
               <span>Explore All 3,333</span>
               <ArrowRight className="h-4 w-4 text-[#8957FF]" />
@@ -232,11 +235,20 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
         </div>
 
         {/* Mobile carousel progress indicators */}
-        <div className="flex sm:hidden justify-center items-center gap-1.5 pt-3">
+        <div className="flex sm:hidden justify-center items-center gap-2 pt-3">
           {featured.map((_, idx) => (
-            <span
+            <button
               key={idx}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              type="button"
+              onClick={() => {
+                sound.playClick();
+                if (carouselRef.current) {
+                  carouselRef.current.scrollTo({ left: idx * 290, behavior: 'smooth' });
+                }
+                setActiveScrollIndex(idx);
+              }}
+              aria-label={`Go to dossier ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 activeScrollIndex === idx ? 'w-6 bg-[#8957FF]' : 'w-2 bg-white/20'
               }`}
             />

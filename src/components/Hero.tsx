@@ -293,23 +293,23 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
                   ></div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 pt-1 border-t border-white/[0.06] text-center text-xs">
-                  <div className="rounded-xl bg-[#080910]/70 p-2 border border-white/[0.04]">
-                    <div className="text-[9px] text-[#8F94AB] font-mono">FREE MINT</div>
-                    <div className="font-mono font-bold text-white mt-0.5 text-xs">{freeMinted} / 1,666</div>
-                    <div className="text-[9px] text-[#F2C46D] font-mono">+5K $LEGEND</div>
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 pt-1 border-t border-white/[0.06] text-center text-xs">
+                  <div className="min-w-0 rounded-xl bg-[#080910]/70 p-1.5 sm:p-2 border border-white/[0.04]">
+                    <div className="text-[8px] sm:text-[9px] text-[#8F94AB] font-mono truncate">FREE MINT</div>
+                    <div className="font-mono font-bold text-white mt-0.5 text-[11px] sm:text-xs truncate">{freeMinted} / 1,666</div>
+                    <div className="text-[8px] sm:text-[9px] text-[#F2C46D] font-mono truncate">+5K $LEGEND</div>
                   </div>
 
-                  <div className="rounded-xl bg-[#080910]/70 p-2 border border-white/[0.04]">
-                    <div className="text-[9px] text-[#8F94AB] font-mono">PAID (0.001 BNB)</div>
-                    <div className="font-mono font-bold text-white mt-0.5 text-xs">{paidMinted} / 1,667</div>
-                    <div className="text-[9px] text-[#36BFFF] font-mono">+10K $LEGEND</div>
+                  <div className="min-w-0 rounded-xl bg-[#080910]/70 p-1.5 sm:p-2 border border-white/[0.04]">
+                    <div className="text-[8px] sm:text-[9px] text-[#8F94AB] font-mono truncate">PAID (0.001)</div>
+                    <div className="font-mono font-bold text-white mt-0.5 text-[11px] sm:text-xs truncate">{paidMinted} / 1,667</div>
+                    <div className="text-[8px] sm:text-[9px] text-[#36BFFF] font-mono truncate">+10K $LEGEND</div>
                   </div>
 
-                  <div className="rounded-xl bg-[#080910]/70 p-2 border border-white/[0.04]">
-                    <div className="text-[9px] text-[#8F94AB] font-mono">GIFT RESERVE</div>
-                    <div className="font-mono font-bold text-[#F2C46D] mt-0.5 text-xs">25,000,000</div>
-                    <div className="text-[9px] text-emerald-400 font-mono">100% PRE-FUNDED</div>
+                  <div className="min-w-0 rounded-xl bg-[#080910]/70 p-1.5 sm:p-2 border border-white/[0.04]">
+                    <div className="text-[8px] sm:text-[9px] text-[#8F94AB] font-mono truncate">GIFT RESERVE</div>
+                    <div className="font-mono font-bold text-[#F2C46D] mt-0.5 text-[11px] sm:text-xs truncate">25,000,000</div>
+                    <div className="text-[8px] sm:text-[9px] text-emerald-400 font-mono truncate">PRE-FUNDED</div>
                   </div>
                 </div>
               </div>
@@ -318,26 +318,28 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
           </div>
 
           {/* Right Column: Cinematic Vertical Agent Artwork (Portrait Aspect Ratio) */}
-          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-            <div className="relative mx-auto max-w-[340px] sm:max-w-md lg:max-w-none">
+          <div className="lg:col-span-5 relative mt-4 lg:mt-0 overflow-hidden sm:overflow-visible">
+            <div className="relative mx-auto w-full max-w-[310px] xs:max-w-[340px] sm:max-w-md lg:max-w-none">
               
               {/* Outer Radiant Glow */}
-              <div className={`absolute -inset-2 rounded-[36px] bg-gradient-to-tr ${getRarityGlow(activeAgent.rarity)} blur-2xl opacity-80 transition-all duration-700`}></div>
+              <div className={`pointer-events-none absolute -inset-1 sm:-inset-2 rounded-[36px] bg-gradient-to-tr ${getRarityGlow(activeAgent.rarity)} blur-xl sm:blur-2xl opacity-75 sm:opacity-80 transition-all duration-700`}></div>
 
-              {/* Main Hologram Container with Touch Swipe Gesture */}
+              {/* Main Hologram Container */}
               <div 
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                className="hero-art relative overflow-hidden rounded-[30px] sm:rounded-[32px] border border-[#b8f5d0]/25 bg-[#111321] shadow-2xl shadow-black tactical-box touch-pan-y"
+                className="hero-art relative overflow-hidden rounded-[30px] sm:rounded-[32px] border border-[#b8f5d0]/25 bg-[#111321] shadow-2xl shadow-black tactical-box"
               >
                 
-                {/* Vertical Portrait Viewport */}
-                <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-[#080910]">
+                {/* Vertical Portrait Viewport with Isolated Touch Swipe Gestures */}
+                <div 
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                  className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-[#080910] cursor-grab select-none touch-pan-y"
+                >
                   <img
                     src={activeAgent.image}
                     alt={activeAgent.name}
                     referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105 pointer-events-none"
                   />
                   
                   {/* Scanline Overlay */}
@@ -397,10 +399,14 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
                       return (
                         <button
                           key={agent.id}
-                          onClick={() => handleSelectAgent(idx)}
-                          className={`touch-target-min rounded-xl p-1.5 sm:p-2 border text-center transition-all cursor-pointer ${
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectAgent(idx);
+                          }}
+                          className={`touch-target-min rounded-xl p-1.5 sm:p-2 border text-center transition-all cursor-pointer active:scale-95 ${
                             isSelected
-                              ? 'border-[#8957FF] bg-[#8957FF]/20 text-white shadow-md shadow-[#8957FF]/25'
+                              ? 'border-[#8957FF] bg-[#8957FF]/25 text-white shadow-md shadow-[#8957FF]/30 font-bold'
                               : 'border-white/[0.06] bg-[#171A2B]/60 text-[#8F94AB] hover:text-white'
                           }`}
                         >

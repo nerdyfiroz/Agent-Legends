@@ -63,7 +63,7 @@ export const WhaleConfidenceDashboard: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
         <div>

@@ -38,7 +38,7 @@ export const TokenomicsView: React.FC = () => {
   });
 
   return (
-    <div className="py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-12">
+    <div className="py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-12 overflow-hidden">
       {/* Header */}
       <div>
         <div className="inline-flex items-center gap-2 rounded-full border border-[#F2C46D]/30 bg-[#F2C46D]/10 px-3.5 py-1 text-xs font-mono font-bold text-[#F2C46D] mb-2">
@@ -55,26 +55,26 @@ export const TokenomicsView: React.FC = () => {
 
       {/* Top 3 KPI strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
-        <div className="rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-5 sm:p-6 tactical-box">
-          <div className="text-xs text-[#8F94AB] font-medium">Total Maximum Supply</div>
-          <div className="mt-2 font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-5 sm:p-6 tactical-box">
+          <div className="text-xs text-[#8F94AB] font-medium truncate">Total Maximum Supply</div>
+          <div className="mt-2 font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums truncate">
             1,000,000,000
           </div>
-          <div className="mt-3 text-xs text-[#36BFFF] font-mono font-semibold">100% Capped BEP-20</div>
+          <div className="mt-3 text-xs text-[#36BFFF] font-mono font-semibold truncate">100% Capped BEP-20</div>
         </div>
 
-        <div className="rounded-2xl sm:rounded-3xl border border-[#8957FF]/40 bg-[#111321] p-5 sm:p-6 tactical-box shadow-lg shadow-[#8957FF]/10">
-          <div className="text-xs text-[#8F94AB] font-medium">25M Instant Gift Reserve</div>
-          <div className="mt-2 font-display text-2xl sm:text-4xl font-extrabold text-[#F2C46D] tracking-tight tabular-nums">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-[#8957FF]/40 bg-[#111321] p-5 sm:p-6 tactical-box shadow-lg shadow-[#8957FF]/10">
+          <div className="text-xs text-[#8F94AB] font-medium truncate">25M Instant Gift Reserve</div>
+          <div className="mt-2 font-display text-2xl sm:text-4xl font-extrabold text-[#F2C46D] tracking-tight tabular-nums truncate">
             25,000,000
           </div>
-          <div className="mt-3 text-xs text-emerald-400 font-mono font-semibold">100% Pre-Funded & Instant</div>
+          <div className="mt-3 text-xs text-emerald-400 font-mono font-semibold truncate">100% Pre-Funded & Instant</div>
         </div>
 
-        <div className="rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-5 sm:p-6 tactical-box">
-          <div className="text-xs text-[#8F94AB] font-medium">BEP-20 Contract (BSC)</div>
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-5 sm:p-6 tactical-box">
+          <div className="text-xs text-[#8F94AB] font-medium truncate">BEP-20 Contract (BSC)</div>
           <div className="mt-2 font-mono text-sm sm:text-base font-bold text-white truncate flex items-center justify-between">
-            <span>{shortenAddress(CONTRACT_ADDRESSES.LEGEND_TOKEN, 6)}</span>
+            <span className="truncate">{shortenAddress(CONTRACT_ADDRESSES.LEGEND_TOKEN, 6)}</span>
             <button
               onClick={() => handleCopy(CONTRACT_ADDRESSES.LEGEND_TOKEN)}
               className="p-1 rounded-lg hover:bg-white/[0.08] text-[#8F94AB] hover:text-white transition-colors cursor-pointer"

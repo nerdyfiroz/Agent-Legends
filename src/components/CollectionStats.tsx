@@ -14,7 +14,7 @@ export const CollectionStats: React.FC = () => {
   } = useWeb3();
 
   return (
-    <section className="relative py-10 sm:py-16 border-y section-rule bg-[#0c1915]/90 backdrop-blur-xl">
+    <section className="relative py-10 sm:py-16 border-y section-rule bg-[#0c1915]/90 backdrop-blur-xl overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Section Header */}
@@ -42,14 +42,14 @@ export const CollectionStats: React.FC = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           
           {/* Card 1: Total Supply */}
-          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
+          <div className="min-w-0 overflow-hidden premium-panel rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
-              <span className="font-semibold text-white/90 text-xs sm:text-sm">Genesis Cap</span>
-              <div className="p-1.5 sm:p-2 rounded-xl bg-[#8957FF]/15 text-[#8957FF]">
+              <span className="font-semibold text-white/90 text-xs sm:text-sm truncate">Genesis Cap</span>
+              <div className="p-1.5 sm:p-2 rounded-xl bg-[#8957FF]/15 text-[#8957FF] shrink-0">
                 <Layers className="h-4 w-4" />
               </div>
             </div>
-            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
+            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums truncate">
               {ECOSYSTEM_RULES.TOTAL_NFT_SUPPLY.toLocaleString()}
             </div>
             <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
@@ -59,14 +59,14 @@ export const CollectionStats: React.FC = () => {
           </div>
 
           {/* Card 2: Minted to Date */}
-          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
+          <div className="min-w-0 overflow-hidden premium-panel rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
-              <span className="font-semibold text-white/90 text-xs sm:text-sm">Minted to Date</span>
-              <div className="p-1.5 sm:p-2 rounded-xl bg-[#36BFFF]/15 text-[#36BFFF]">
+              <span className="font-semibold text-white/90 text-xs sm:text-sm truncate">Minted to Date</span>
+              <div className="p-1.5 sm:p-2 rounded-xl bg-[#36BFFF]/15 text-[#36BFFF] shrink-0">
                 <Cpu className="h-4 w-4" />
               </div>
             </div>
-            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
+            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums truncate">
               {totalMinted.toLocaleString()}
             </div>
             {/* Micro Dual Progress Bar */}
@@ -83,47 +83,47 @@ export const CollectionStats: React.FC = () => {
                   title={`Paid: ${paidMinted}`}
                 />
               </div>
-              <div className="text-[10px] text-[#8F94AB] flex items-center justify-between font-mono">
-                <span>Free: {freeMinted}</span>
-                <span>Paid: {paidMinted}</span>
+              <div className="text-[9px] sm:text-[10px] text-[#8F94AB] flex items-center justify-between font-mono">
+                <span className="truncate">Free: {freeMinted}</span>
+                <span className="truncate">Paid: {paidMinted}</span>
               </div>
             </div>
           </div>
 
           {/* Card 3: Unique Agent Holders */}
-          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
+          <div className="min-w-0 overflow-hidden premium-panel rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
-              <span className="font-semibold text-white/90 text-xs sm:text-sm">Unique Holders</span>
-              <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D]">
+              <span className="font-semibold text-white/90 text-xs sm:text-sm truncate">Holders</span>
+              <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D] shrink-0">
                 <Users className="h-4 w-4" />
               </div>
             </div>
-            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
+            <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums truncate">
               {uniqueHolders.toLocaleString()}
             </div>
             <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="h-3 w-3 text-emerald-400" />
+              <span className="flex items-center gap-1 truncate">
+                <ShieldCheck className="h-3 w-3 text-emerald-400 shrink-0" />
                 Agent IDs
               </span>
-              <span className="text-emerald-400 font-bold">Verified</span>
+              <span className="text-emerald-400 font-bold shrink-0">Verified</span>
             </div>
           </div>
 
           {/* Card 4: 25M Gift Reserve */}
-          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box shadow-lg shadow-[#75dca8]/10">
+          <div className="min-w-0 overflow-hidden premium-panel rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 space-y-2.5 tactical-box shadow-lg shadow-[#75dca8]/10">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
-              <span className="font-semibold text-[#F2C46D] text-xs sm:text-sm">25M Gift Reserve</span>
-              <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D]">
+              <span className="font-semibold text-[#F2C46D] text-xs sm:text-sm truncate">25M Gift Reserve</span>
+              <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D] shrink-0">
                 <Gift className="h-4 w-4" />
               </div>
             </div>
-            <div className="font-display text-2xl sm:text-4xl font-extrabold text-[#F2C46D] tracking-tight tabular-nums">
+            <div className="font-display text-xl sm:text-3xl lg:text-4xl font-extrabold text-[#F2C46D] tracking-tight tabular-nums truncate">
               {formatLegend(totalGiftDistributed)}
             </div>
             <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
-              <span>Distributed</span>
-              <span className="text-emerald-400 font-bold">100% Pre-Funded</span>
+              <span className="truncate">Distributed</span>
+              <span className="text-emerald-400 font-bold shrink-0">100% Pre-Funded</span>
             </div>
           </div>
 
