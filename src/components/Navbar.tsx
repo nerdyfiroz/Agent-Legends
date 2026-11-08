@@ -8,6 +8,7 @@ export type NavTab =
   | 'home'
   | 'genesis'
   | 'collection'
+  | 'evolution'
   | 'tokenomics'
   | 'gifts'
   | 'mylegends'
@@ -39,15 +40,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navItems: { id: NavTab; label: string; badge?: string; badgeColor?: string }[] = [
-    { id: 'home', label: 'Home' },
+    { id: 'home', label: 'Civilization' },
     { id: 'genesis', label: 'Genesis Mint', badge: 'Live', badgeColor: 'text-[#F2C46D] bg-[#F2C46D]/15 border-[#F2C46D]/30' },
-    { id: 'collection', label: 'Collection' },
+    { id: 'collection', label: 'Archives' },
+    { id: 'evolution', label: 'Evolution', badge: 'Neural', badgeColor: 'text-[#36BFFF] bg-[#36BFFF]/15 border-[#36BFFF]/30' },
     { id: 'tokenomics', label: 'Tokenomics' },
     { id: 'gifts', label: '25M Gift Reserve', badge: 'Instant', badgeColor: 'text-[#8957FF] bg-[#8957FF]/15 border-[#8957FF]/30' },
-    { id: 'mylegends', label: 'My Legends' },
-    { id: 'marketplace', label: 'Marketplace' },
-    { id: 'activity', label: 'Live Activity' },
-    { id: 'admin', label: 'Admin' },
+    { id: 'marketplace', label: 'Black Market' },
+    { id: 'activity', label: 'On-Chain Radar' },
+    { id: 'mylegends', label: 'My Agent ID' },
   ];
 
   return (

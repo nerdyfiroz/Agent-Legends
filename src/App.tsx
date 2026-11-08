@@ -18,6 +18,7 @@ import { AdminView } from './components/AdminView';
 import { WalletModal } from './components/WalletModal';
 import { AgentVerifyModal } from './components/AgentVerifyModal';
 import { NftDetailModal } from './components/NftDetailModal';
+import { AgentEvolutionChamber } from './components/AgentEvolutionChamber';
 import { AgentLegendNFT } from './types';
 
 function MainApp() {
@@ -52,6 +53,7 @@ function MainApp() {
             <Hero
               onMintClick={() => navigateToTab('genesis')}
               onExploreClick={() => navigateToTab('collection')}
+              onEvolutionClick={() => navigateToTab('evolution')}
             />
             <CollectionStats />
             <FeaturedLegends
@@ -75,6 +77,10 @@ function MainApp() {
 
         {activeTab === 'collection' && (
           <CollectionExplorer onSelectNft={handleSelectNft} />
+        )}
+
+        {activeTab === 'evolution' && (
+          <AgentEvolutionChamber />
         )}
 
         {activeTab === 'tokenomics' && <TokenomicsView />}

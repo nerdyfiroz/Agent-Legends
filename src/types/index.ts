@@ -27,6 +27,8 @@ export interface AgentLegendNFT {
   powerScore: number;
   autonomousQuestsCompleted: number;
   traits: Trait[];
+  attributes?: Trait[];
+  giftAmount?: number;
   isListed?: boolean;
   listingPriceBnb?: number;
 }
