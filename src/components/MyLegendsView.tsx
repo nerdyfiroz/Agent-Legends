@@ -5,6 +5,8 @@ import { shortenAddress, formatLegend, formatBnb } from '../utils/formatting';
 import { ShieldCheck, Sparkles, Zap, Award, Layers, PlusCircle, ArrowRight, Tag } from 'lucide-react';
 import { sound } from '../utils/audio';
 
+import { AgentIdentityCardCreator } from './AgentIdentityCardCreator';
+
 interface MyLegendsViewProps {
   onSelectNft: (nft: AgentLegendNFT) => void;
   onGoToMint: () => void;
@@ -26,6 +28,8 @@ export const MyLegendsView: React.FC<MyLegendsViewProps> = ({
     userMintStatus,
   } = useWeb3();
 
+  const [activeSubTab, setActiveSubTab] = React.useState<'inventory' | 'creator'>('inventory');
+
   const getRarityBadgeStyle = (rarity: string) => {
     switch (rarity) {
       case 'Mythic':
@@ -42,35 +46,59 @@ export const MyLegendsView: React.FC<MyLegendsViewProps> = ({
   };
 
   return (
-    <div className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-12">
+      {/* Header with Sub-Navigation */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-white/[0.08] pb-6">
         <div>
           <div className="text-xs font-mono font-semibold text-[#36BFFF] uppercase tracking-wider">
             Sovereign Agent Command Deck
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-1">
+          <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-1">
             My Agent Legends
           </h1>
           <p className="text-xs sm:text-sm text-[#8F94AB] mt-1.5 leading-relaxed">
-            Manage your personal Genesis AI Agents, evolve neural ranks, and deploy autonomous capabilities on BNB Smart Chain.
+            Manage your personal Genesis AI Agents, evolve neural ranks, and generate shareable identity badges.
           </p>
         </div>
 
-        <button
-          onClick={() => {
-            sound.playClick();
-            onGoToMint();
-          }}
-          className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] px-6 py-3.5 text-xs font-bold text-white shadow-xl shadow-[#8957FF]/20 hover:opacity-95 self-start md:self-auto cursor-pointer"
-        >
-          <PlusCircle className="h-4 w-4" />
-          <span>Mint More Agents</span>
-        </button>
+        {/* Sub-tab switcher */}
+        <div className="flex items-center gap-2 bg-[#111321] p-1.5 rounded-2xl border border-white/[0.08]">
+          <button
+            onClick={() => {
+              sound.playClick();
+              setActiveSubTab('inventory');
+            }}
+            className={`touch-target-min px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeSubTab === 'inventory'
+                ? 'bg-[#8957FF] text-white shadow-md shadow-[#8957FF]/30'
+                : 'text-[#8F94AB] hover:text-white'
+            }`}
+          >
+            My Agents ({ownedNfts.length})
+          </button>
+
+          <button
+            onClick={() => {
+              sound.playClick();
+              setActiveSubTab('creator');
+            }}
+            className={`touch-target-min px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeSubTab === 'creator'
+                ? 'bg-[#36BFFF] text-slate-950 shadow-md shadow-[#36BFFF]/30'
+                : 'text-[#8F94AB] hover:text-white'
+            }`}
+          >
+            Generate Card
+          </button>
+        </div>
       </div>
 
-      {/* User Dashboard Profile & Telemetry */}
-      <div className="glass-panel rounded-3xl p-7 lg:p-8 space-y-6 border border-white/[0.08]">
+      {activeSubTab === 'creator' ? (
+        <AgentIdentityCardCreator />
+      ) : (
+        <>
+          {/* User Dashboard Profile & Telemetry */}
+          <div className="glass-panel rounded-3xl p-7 lg:p-8 space-y-6 border border-white/[0.08]">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Identity & Agent ID */}
           <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-5 space-y-2">
@@ -251,6 +279,8 @@ export const MyLegendsView: React.FC<MyLegendsViewProps> = ({
           </div>
         )}
       </div>
+        </>
+      )}
     </div>
   );
 };

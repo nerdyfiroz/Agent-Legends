@@ -145,34 +145,97 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          {/* Mobile hamburger button */}
+          {/* Mobile hamburger button - 48px touch target */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex xl:hidden p-2 text-[#8F94AB] hover:text-white focus:outline-none cursor-pointer"
+            onClick={() => {
+              sound.playClick();
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
+            className="touch-target-min flex xl:hidden items-center justify-center p-2 rounded-xl text-[#8F94AB] hover:text-white focus:outline-none cursor-pointer"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Glass Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden border-b border-white/[0.06] bg-[#080910]/95 backdrop-blur-2xl px-5 pt-4 pb-6 space-y-3 animate-in fade-in duration-200">
-          <div className="grid grid-cols-2 gap-2 pb-3 border-b border-white/[0.06]">
+        <div className="xl:hidden fixed inset-x-0 top-20 bottom-0 z-50 bg-[#080910]/98 backdrop-blur-3xl px-5 pt-4 pb-[max(32px,env(safe-area-inset-bottom,32px))] overflow-y-auto space-y-4 animate-in slide-in-from-top-4 duration-200">
+          
+          {/* Wallet Status Card in Drawer */}
+          {isConnected ? (
+            <div className="bg-[#111321] rounded-2xl p-4 border border-white/[0.08] space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
+                  <span className="font-mono text-xs font-bold text-white">{shortenAddress(address || '', 6)}</span>
+                </div>
+                <span className="rounded-lg border border-[#F2C46D]/30 bg-[#F2C46D]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#F2C46D]">
+                  BSC 56
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-white/[0.06]">
+                <div className="bg-[#080910] p-2.5 rounded-xl border border-white/[0.04]">
+                  <div className="text-[10px] text-[#8F94AB]">LEGEND:</div>
+                  <div className="font-bold text-white mt-0.5">{formatLegend(legendBalance)}</div>
+                </div>
+                <div className="bg-[#080910] p-2.5 rounded-xl border border-white/[0.04]">
+                  <div className="text-[10px] text-[#8F94AB]">BNB:</div>
+                  <div className="font-bold text-white mt-0.5">{formatBnb(bnbBalance)}</div>
+                </div>
+              </div>
+
+              {agentId ? (
+                <div className="flex items-center gap-2 text-xs font-mono text-[#36BFFF] bg-[#36BFFF]/10 p-2.5 rounded-xl border border-[#36BFFF]/20">
+                  <ShieldCheck className="h-4 w-4" />
+                  <span>Agent ID: {agentId}</span>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenAgentModal();
+                  }}
+                  className="w-full touch-target-min flex items-center justify-center gap-2 rounded-xl bg-[#36BFFF]/15 border border-[#36BFFF]/30 py-2.5 text-xs font-bold text-[#36BFFF]"
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  <span>Verify Binance Agent ID</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenWalletModal();
+              }}
+              className="w-full touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] py-3.5 text-sm font-bold text-white shadow-lg shadow-[#8957FF]/30"
+            >
+              <Wallet className="h-4 w-4" />
+              <span>Connect Web3 Wallet</span>
+            </button>
+          )}
+
+          {/* Navigation Links List */}
+          <div className="space-y-1.5 pt-2">
+            <div className="text-[10px] font-mono uppercase tracking-wider text-[#8F94AB] px-1 pb-1">
+              Civilization Portals
+            </div>
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex items-center justify-between text-left px-3.5 py-2.5 text-xs font-medium rounded-xl transition-all cursor-pointer ${
+                className={`w-full touch-target-min flex items-center justify-between text-left px-4 py-3 text-sm font-semibold rounded-2xl transition-all cursor-pointer ${
                   activeTab === item.id
-                    ? 'bg-[#171A2B] text-white font-bold border border-[#8957FF]/40 shadow-sm'
-                    : 'text-[#8F94AB] hover:text-white hover:bg-white/[0.03]'
+                    ? 'bg-[#171A2B] text-white border border-[#8957FF]/50 shadow-md shadow-[#8957FF]/10'
+                    : 'text-[#8F94AB] hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <span>{item.label}</span>
                 {item.badge && (
-                  <span className={`text-[9px] font-mono px-1 rounded ${item.badgeColor}`}>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md font-bold ${item.badgeColor}`}>
                     {item.badge}
                   </span>
                 )}
@@ -180,17 +243,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          {isConnected && (
-            <div className="pt-2 flex items-center justify-between text-xs text-[#8F94AB] bg-[#111321] rounded-xl p-3 border border-white/[0.04]">
-              <div className="flex items-center gap-1.5">
-                <Sparkles className="h-3.5 w-3.5 text-[#F2C46D]" />
-                <span className="font-mono text-white">{formatLegend(legendBalance)} LEGEND</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-mono text-white">{formatBnb(bnbBalance)} BNB</span>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </header>

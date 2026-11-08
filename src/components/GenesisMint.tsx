@@ -47,6 +47,7 @@ export const GenesisMint: React.FC<GenesisMintProps> = ({
   } = useWeb3();
 
   const [paidQuantity, setPaidQuantity] = useState<number>(1);
+  const [mobileMintTab, setMobileMintTab] = useState<'free' | 'paid'>('free');
 
   const remainingPaidQuota = Math.max(0, ECOSYSTEM_RULES.MAX_PAID_MINTS_PER_AGENT - userMintStatus.paidMintsCount);
   const isPending =
@@ -169,10 +170,45 @@ export const GenesisMint: React.FC<GenesisMintProps> = ({
         </div>
       </div>
 
+      {/* Mobile-First Mint Terminal Segmented Switcher */}
+      <div className="flex lg:hidden rounded-2xl bg-[#111321] p-1.5 border border-white/[0.08] shadow-lg">
+        <button
+          onClick={() => {
+            sound.playClick();
+            setMobileMintTab('free');
+          }}
+          className={`flex-1 touch-target-min flex flex-col items-center justify-center py-2.5 px-3 rounded-xl transition-all cursor-pointer ${
+            mobileMintTab === 'free'
+              ? 'bg-[#36BFFF] text-slate-950 font-extrabold shadow-md shadow-[#36BFFF]/25'
+              : 'text-[#8F94AB] hover:text-white'
+          }`}
+        >
+          <span className="text-xs">Free Mint (0 BNB)</span>
+          <span className="text-[10px] font-mono opacity-90">+5,000 $LEGEND</span>
+        </button>
+
+        <button
+          onClick={() => {
+            sound.playClick();
+            setMobileMintTab('paid');
+          }}
+          className={`flex-1 touch-target-min flex flex-col items-center justify-center py-2.5 px-3 rounded-xl transition-all cursor-pointer ${
+            mobileMintTab === 'paid'
+              ? 'bg-[#8957FF] text-white font-extrabold shadow-md shadow-[#8957FF]/25'
+              : 'text-[#8F94AB] hover:text-white'
+          }`}
+        >
+          <span className="text-xs">Paid Mint (0.001 BNB)</span>
+          <span className="text-[10px] font-mono opacity-90">+10,000 $LEGEND / NFT</span>
+        </button>
+      </div>
+
       {/* Mint Terminals Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         {/* Terminal 1: Canonical Free Mint */}
-        <div className="glass-panel rounded-3xl p-7 sm:p-9 flex flex-col justify-between hover:border-[#36BFFF]/50 transition-all duration-300 shadow-2xl relative">
+        <div className={`glass-panel rounded-3xl p-6 sm:p-9 flex-col justify-between hover:border-[#36BFFF]/50 transition-all duration-300 shadow-2xl relative ${
+          mobileMintTab !== 'free' ? 'hidden lg:flex' : 'flex'
+        }`}>
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <span className="rounded-xl bg-[#36BFFF]/15 border border-[#36BFFF]/30 px-3 py-1 text-xs font-mono font-bold text-[#36BFFF]">
@@ -250,7 +286,9 @@ export const GenesisMint: React.FC<GenesisMintProps> = ({
         </div>
 
         {/* Terminal 2: Paid Mint (0.001 BNB each, up to 6 NFTs, +10k LEGEND per NFT) */}
-        <div className="glass-panel-elevated rounded-3xl p-7 sm:p-9 flex flex-col justify-between hover:border-[#8957FF] transition-all duration-300 shadow-2xl relative">
+        <div className={`glass-panel-elevated rounded-3xl p-6 sm:p-9 flex-col justify-between hover:border-[#8957FF] transition-all duration-300 shadow-2xl relative ${
+          mobileMintTab !== 'paid' ? 'hidden lg:flex' : 'flex'
+        }`}>
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <span className="rounded-xl bg-[#8957FF]/15 border border-[#8957FF]/30 px-3 py-1 text-xs font-mono font-bold text-[#8957FF]">

@@ -206,3 +206,31 @@ h1, h2, h3, h4, .font-display {
   animation: scanlinePulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+/* Mobile-First Gestures & Touch Helpers */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.snap-mandatory {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-center-item {
+  scroll-snap-align: center;
+}
+
+.safe-bottom-padding {
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+}
+
+.touch-target-min {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+

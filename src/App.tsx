@@ -19,6 +19,8 @@ import { WalletModal } from './components/WalletModal';
 import { AgentVerifyModal } from './components/AgentVerifyModal';
 import { NftDetailModal } from './components/NftDetailModal';
 import { AgentEvolutionChamber } from './components/AgentEvolutionChamber';
+import { WhaleConfidenceDashboard } from './components/WhaleConfidenceDashboard';
+import { MobileStickyMintBar } from './components/MobileStickyMintBar';
 import { AgentLegendNFT } from './types';
 
 function MainApp() {
@@ -46,8 +48,8 @@ function MainApp() {
         onOpenAgentModal={() => setAgentModalOpen(true)}
       />
 
-      {/* Main View Router */}
-      <main className="flex-1">
+      {/* Main View Router with mobile padding */}
+      <main className="flex-1 pb-24 md:pb-0">
         {activeTab === 'home' && (
           <>
             <Hero
@@ -63,6 +65,7 @@ function MainApp() {
             <TokenEcosystemSection
               onLearnMoreClick={() => navigateToTab('tokenomics')}
             />
+            <WhaleConfidenceDashboard />
             <RoadmapSection />
             <LiveActivityFeed />
           </>
@@ -83,7 +86,12 @@ function MainApp() {
           <AgentEvolutionChamber />
         )}
 
-        {activeTab === 'tokenomics' && <TokenomicsView />}
+        {activeTab === 'tokenomics' && (
+          <>
+            <TokenomicsView />
+            <WhaleConfidenceDashboard />
+          </>
+        )}
 
         {activeTab === 'gifts' && (
           <MinterGiftsView onGoToMint={() => navigateToTab('genesis')} />
@@ -105,6 +113,12 @@ function MainApp() {
 
         {activeTab === 'admin' && <AdminView />}
       </main>
+
+      {/* Floating Sticky Mobile Mint CTA Bar */}
+      <MobileStickyMintBar
+        onMintClick={() => navigateToTab('genesis')}
+        activeTab={activeTab}
+      />
 
       {/* Footer */}
       <Footer />
