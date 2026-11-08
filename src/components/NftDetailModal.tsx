@@ -62,14 +62,18 @@ export const NftDetailModal: React.FC<NftDetailModalProps> = ({ nft, onClose }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/[0.1] bg-[#111321] p-6 sm:p-8 shadow-2xl shadow-black/90">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full sm:max-w-3xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-t-[32px] sm:rounded-3xl border border-white/[0.12] bg-[#0E121D] p-5 sm:p-7 shadow-2xl shadow-black/95">
+        {/* Mobile drag handle */}
+        <div className="w-12 h-1 bg-white/20 rounded-full mx-auto mb-3 sm:hidden" />
+
         <button
           onClick={() => {
             sound.playClick();
             onClose();
           }}
-          className="absolute top-6 right-6 rounded-xl p-1.5 text-[#8F94AB] hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+          className="touch-target-min absolute top-4 right-4 sm:top-6 sm:right-6 rounded-2xl p-2 text-[#8F94AB] hover:bg-white/[0.08] hover:text-white transition-colors cursor-pointer flex items-center justify-center z-10"
+          aria-label="Close dossier modal"
         >
           <X className="h-5 w-5" />
         </button>
@@ -143,15 +147,27 @@ export const NftDetailModal: React.FC<NftDetailModalProps> = ({ nft, onClose }) 
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[#8F94AB]">Smart Contract:</span>
-                <a
-                  href={getBscScanTokenUrl(CONTRACT_ADDRESSES.NFT_GENESIS, nft.tokenId)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-[#36BFFF] hover:underline font-mono"
-                >
-                  <span>ERC-721 Genesis</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      sound.playClick();
+                      const shareText = `Check out ${nft.name} on @AgentLegends (BNB Smart Chain)! Power: ${nft.powerScore} PWR, Level ${nft.evolutionLevel} ⚡\nhttps://agentlegends.xyz`;
+                      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank');
+                    }}
+                    className="text-[#8957FF] hover:underline font-mono text-[11px] font-semibold cursor-pointer"
+                  >
+                    Share to X
+                  </button>
+                  <a
+                    href={getBscScanTokenUrl(CONTRACT_ADDRESSES.NFT_GENESIS, nft.tokenId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-[#36BFFF] hover:underline font-mono"
+                  >
+                    <span>BscScan</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
               </div>
             </div>
 

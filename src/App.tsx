@@ -39,7 +39,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080910] text-[#F8F8FF] flex flex-col justify-between selection:bg-[#8957FF]/30 selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#07110e] text-[#F8F8FF] flex flex-col justify-between selection:bg-[#8957FF]/30 selection:text-white">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}

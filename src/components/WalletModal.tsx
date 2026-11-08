@@ -40,8 +40,8 @@ export const WalletModal: React.FC<WalletModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-3xl border border-white/[0.1] bg-[#111321] p-6 sm:p-7 shadow-2xl shadow-black/90">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-3xl border border-white/[0.1] bg-[#111321] p-5 sm:p-7 shadow-2xl shadow-black/90">
         <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8957FF]/20 text-[#8957FF] border border-[#8957FF]/30">
@@ -56,7 +56,8 @@ export const WalletModal: React.FC<WalletModalProps> = ({
               sound.playClick();
               onClose();
             }}
-            className="rounded-xl p-1.5 text-[#8F94AB] hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+            className="touch-target-min flex items-center justify-center rounded-xl p-2 text-[#8F94AB] hover:bg-white/[0.06] hover:text-white transition-colors cursor-pointer"
+            aria-label="Close modal"
           >
             <X className="h-5 w-5" />
           </button>

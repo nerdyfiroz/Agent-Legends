@@ -98,62 +98,62 @@ export const MyLegendsView: React.FC<MyLegendsViewProps> = ({
       ) : (
         <>
           {/* User Dashboard Profile & Telemetry */}
-          <div className="glass-panel rounded-3xl p-7 lg:p-8 space-y-6 border border-white/[0.08]">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Identity & Agent ID */}
-          <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-5 space-y-2">
-            <div className="text-xs text-[#8F94AB]">Binance Agent ID</div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-base font-bold text-white">
-                {agentId || 'Unverified'}
-              </span>
-              {agentId ? (
-                <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              ) : (
-                <button
-                  onClick={onOpenAgentModal}
-                  className="text-xs text-[#36BFFF] underline cursor-pointer"
-                >
-                  Verify
-                </button>
-              )}
-            </div>
-            <div className="text-[11px] font-mono text-[#8F94AB]">
-              {address ? shortenAddress(address, 6) : 'Disconnected'}
-            </div>
-          </div>
+          <div className="glass-panel rounded-3xl p-4 sm:p-7 space-y-5 border border-white/[0.08]">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {/* Identity & Agent ID */}
+              <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-3.5 sm:p-5 space-y-1.5">
+                <div className="text-[11px] text-[#8F94AB]">Binance Agent ID</div>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-mono text-sm sm:text-base font-bold text-white truncate">
+                    {agentId || 'Unverified'}
+                  </span>
+                  {agentId ? (
+                    <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0" />
+                  ) : (
+                    <button
+                      onClick={onOpenAgentModal}
+                      className="text-xs text-[#36BFFF] underline cursor-pointer shrink-0"
+                    >
+                      Verify
+                    </button>
+                  )}
+                </div>
+                <div className="text-[10px] sm:text-[11px] font-mono text-[#8F94AB] truncate">
+                  {address ? shortenAddress(address, 4) : 'Disconnected'}
+                </div>
+              </div>
 
-          {/* Owned NFTs */}
-          <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-5 space-y-1">
-            <div className="text-xs text-[#8F94AB]">Genesis NFTs Owned</div>
-            <div className="font-display text-3xl font-extrabold text-white tabular-nums">
-              {ownedNfts.length}
-            </div>
-            <div className="text-[11px] text-[#36BFFF] font-mono">
-              Total Power: {ownedNfts.reduce((acc, n) => acc + n.powerScore, 0)} PWR
-            </div>
-          </div>
+              {/* Owned NFTs */}
+              <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-3.5 sm:p-5 space-y-1">
+                <div className="text-[11px] text-[#8F94AB]">Genesis Owned</div>
+                <div className="font-display text-2xl sm:text-3xl font-extrabold text-white tabular-nums">
+                  {ownedNfts.length}
+                </div>
+                <div className="text-[10px] sm:text-[11px] text-[#36BFFF] font-mono truncate">
+                  Power: {ownedNfts.reduce((acc, n) => acc + n.powerScore, 0)} PWR
+                </div>
+              </div>
 
-          {/* Total Gifts Received */}
-          <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-5 space-y-1">
-            <div className="text-xs text-[#8F94AB]">Instant LEGEND Gifts</div>
-            <div className="font-display text-3xl font-extrabold text-[#F2C46D] tabular-nums">
-              +{formatLegend(userMintStatus.legendGiftsReceived)}
-            </div>
-            <div className="text-[11px] text-emerald-400 font-mono">100% On-Chain Transferred</div>
-          </div>
+              {/* Total Gifts Received */}
+              <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-3.5 sm:p-5 space-y-1">
+                <div className="text-[11px] text-[#8F94AB]">LEGEND Gifts</div>
+                <div className="font-display text-2xl sm:text-3xl font-extrabold text-[#F2C46D] tabular-nums">
+                  +{formatLegend(userMintStatus.legendGiftsReceived)}
+                </div>
+                <div className="text-[10px] sm:text-[11px] text-emerald-400 font-mono truncate">100% Transferred</div>
+              </div>
 
-          {/* Wallet Balance */}
-          <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-5 space-y-1">
-            <div className="text-xs text-[#8F94AB]">Active Balances</div>
-            <div className="font-mono text-sm font-bold text-white tabular-nums">
-              {formatBnb(bnbBalance)} BNB
+              {/* Wallet Balance */}
+              <div className="rounded-2xl border border-white/[0.06] bg-[#0C0E1A] p-3.5 sm:p-5 space-y-1">
+                <div className="text-[11px] text-[#8F94AB]">Active Balances</div>
+                <div className="font-mono text-xs sm:text-sm font-bold text-white tabular-nums truncate">
+                  {formatBnb(bnbBalance)} BNB
+                </div>
+                <div className="font-mono text-[11px] text-[#F2C46D] tabular-nums truncate">
+                  {formatLegend(legendBalance)} $LEGEND
+                </div>
+              </div>
             </div>
-            <div className="font-mono text-xs text-[#F2C46D] tabular-nums">
-              {formatLegend(legendBalance)} $LEGEND
-            </div>
-          </div>
-        </div>
 
         {/* Mint Allocation Usage Strip */}
         <div className="rounded-2xl border border-white/[0.04] bg-[#080910] p-4.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs">

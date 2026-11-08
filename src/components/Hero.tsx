@@ -90,6 +90,44 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
   const [audioEnabled, setAudioEnabled] = useState(true);
 
   const activeAgent = HERO_AGENTS[activeAgentIndex];
+  const [copiedContract, setCopiedContract] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+    if (deltaX < -45) {
+      handleSelectAgent((activeAgentIndex + 1) % HERO_AGENTS.length);
+    } else if (deltaX > 45) {
+      handleSelectAgent((activeAgentIndex - 1 + HERO_AGENTS.length) % HERO_AGENTS.length);
+    }
+    setTouchStartX(null);
+  };
+
+  const getRarityGlow = (rarity: string) => {
+    switch (rarity) {
+      case 'Mythic':
+        return 'from-[#F2C46D]/40 via-[#8957FF]/20 to-[#36BFFF]/20 shadow-[0_0_50px_rgba(242,196,109,0.3)]';
+      case 'Legendary':
+        return 'from-[#8957FF]/40 via-[#36BFFF]/25 to-[#75dca8]/20 shadow-[0_0_50px_rgba(137,87,255,0.3)]';
+      case 'Epic':
+        return 'from-[#36BFFF]/40 via-[#8957FF]/25 to-[#F2C46D]/20 shadow-[0_0_50px_rgba(54,191,255,0.3)]';
+      default:
+        return 'from-[#75dca8]/40 via-[#36BFFF]/20 to-[#8957FF]/20 shadow-[0_0_50px_rgba(117,220,168,0.3)]';
+    }
+  };
+
+  const handleCopyContract = () => {
+    navigator.clipboard.writeText(CONTRACT_ADDRESSES.NFT_GENESIS);
+    setCopiedContract(true);
+    sound.playClick();
+    setTimeout(() => setCopiedContract(false), 2000);
+  };
 
   const progressPercent = Math.min(
     100,
@@ -108,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
   };
 
   return (
-    <section className="relative overflow-hidden pt-6 pb-14 sm:pt-12 sm:pb-24 lg:pt-14 lg:pb-32 bg-[#080910] min-h-[85vh] flex flex-col justify-center">
+    <section className="cinematic-hero relative overflow-hidden pt-6 pb-14 sm:pt-12 sm:pb-24 lg:pt-14 lg:pb-32 min-h-[85vh] flex flex-col justify-center">
       {/* Cinematic Deep Space Ambient Glows */}
       <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[550px] w-full max-w-[1000px] rounded-full bg-gradient-to-b from-[#8957FF]/18 via-[#36BFFF]/10 to-transparent blur-3xl"></div>
       <div className="pointer-events-none absolute top-1/3 -right-24 h-72 w-72 rounded-full bg-[#8957FF]/12 blur-3xl"></div>
@@ -124,9 +162,16 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
               BSC 56 <span className="text-[#36BFFF]">ONLINE</span>
             </span>
             <span className="text-white/20">|</span>
-            <span className="text-[#F2C46D] text-[11px] sm:text-xs">
-              {shortenAddress(CONTRACT_ADDRESSES.NFT_GENESIS, 4)}
-            </span>
+            <button
+              onClick={handleCopyContract}
+              className="text-[#F2C46D] text-[11px] sm:text-xs hover:text-white transition-colors cursor-pointer flex items-center gap-1 font-mono"
+              title="Copy Genesis Contract Address"
+            >
+              <span>{shortenAddress(CONTRACT_ADDRESSES.NFT_GENESIS, 4)}</span>
+              {copiedContract ? (
+                <span className="text-[10px] text-emerald-400 font-bold ml-1">Copied!</span>
+              ) : null}
+            </button>
           </div>
 
           <div className="flex items-center gap-3">
@@ -175,9 +220,9 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
 
             {/* Editorial Title */}
             <div className="space-y-3 sm:space-y-4">
-              <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] max-w-2xl">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-[-0.05em] text-white leading-[0.98] max-w-2xl">
                 The Sovereign Civilization of{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8957FF] via-[#36BFFF] to-[#F2C46D]">
+                <span className="text-[#b8f5d0]">
                   AI Agents.
                 </span>
               </h1>
@@ -195,7 +240,7 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
                   sound.playClick();
                   onMintClick();
                 }}
-                className="touch-target-min relative overflow-hidden flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#8957FF] via-[#7040FF] to-[#36BFFF] px-8 py-4 text-sm font-extrabold text-white shadow-xl shadow-[#8957FF]/30 active:scale-95 transition-transform cursor-pointer"
+                className="mint-button touch-target-min relative overflow-hidden flex items-center justify-center gap-3 rounded-2xl px-8 py-4 text-sm font-extrabold active:scale-95 transition-transform cursor-pointer"
               >
                 <Sparkles className="h-4 w-4 text-[#F2C46D]" />
                 <span>Mint Genesis Legend</span>
@@ -207,7 +252,7 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
                   sound.playClick();
                   onExploreClick();
                 }}
-                className="touch-target-min flex items-center justify-center gap-2.5 rounded-2xl border border-white/[0.1] bg-[#111321] px-7 py-4 text-sm font-semibold text-white hover:border-[#8957FF]/50 active:scale-95 transition-transform cursor-pointer shadow-lg shadow-black/30"
+                className="explore-button touch-target-min flex items-center justify-center gap-2.5 rounded-2xl border px-7 py-4 text-sm font-semibold text-white active:scale-95 transition-transform cursor-pointer shadow-lg shadow-black/30"
               >
                 <Layers className="h-4 w-4 text-[#36BFFF]" />
                 <span>Intelligence Archives</span>
@@ -277,10 +322,14 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
             <div className="relative mx-auto max-w-[340px] sm:max-w-md lg:max-w-none">
               
               {/* Outer Radiant Glow */}
-              <div className="absolute -inset-2 rounded-[36px] bg-gradient-to-tr from-[#8957FF]/35 via-[#36BFFF]/20 to-[#F2C46D]/25 blur-2xl opacity-75"></div>
+              <div className={`absolute -inset-2 rounded-[36px] bg-gradient-to-tr ${getRarityGlow(activeAgent.rarity)} blur-2xl opacity-80 transition-all duration-700`}></div>
 
-              {/* Main Hologram Container */}
-              <div className="relative overflow-hidden rounded-[30px] sm:rounded-[32px] border border-white/[0.12] bg-[#111321] shadow-2xl shadow-black tactical-box">
+              {/* Main Hologram Container with Touch Swipe Gesture */}
+              <div 
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="hero-art relative overflow-hidden rounded-[30px] sm:rounded-[32px] border border-[#b8f5d0]/25 bg-[#111321] shadow-2xl shadow-black tactical-box touch-pan-y"
+              >
                 
                 {/* Vertical Portrait Viewport */}
                 <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-[#080910]">
@@ -336,7 +385,10 @@ export const Hero: React.FC<HeroProps> = ({ onMintClick, onExploreClick, onEvolu
                 <div className="p-4 sm:p-5 space-y-3 bg-gradient-to-b from-[#111321] to-[#0D0F1B]">
                   <div className="flex items-center justify-between text-[11px] font-mono text-[#8F94AB]">
                     <span>DISCOVERY MATRIX:</span>
-                    <span className="text-white">SELECT (4 OF 3,333)</span>
+                    <span className="text-[#36BFFF] text-[10px] sm:hidden flex items-center gap-1 font-semibold">
+                      ← SWIPE ARTWORK →
+                    </span>
+                    <span className="hidden sm:inline text-white">SELECT (4 OF 3,333)</span>
                   </div>
 
                   <div className="grid grid-cols-4 gap-1.5 sm:gap-2">

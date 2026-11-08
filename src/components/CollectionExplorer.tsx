@@ -98,20 +98,20 @@ export const CollectionExplorer: React.FC<CollectionExplorerProps> = ({ onSelect
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center bg-[#111321] rounded-2xl p-1.5 border border-white/[0.08] shrink-0">
+        <div className="w-full sm:w-auto flex items-center bg-[#111321] rounded-2xl p-1.5 border border-white/[0.08] shrink-0">
           <button
             onClick={() => {
               sound.playClick();
               setActiveSubTab('archives');
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex-1 sm:flex-initial touch-target-min flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeSubTab === 'archives'
                 ? 'bg-[#8957FF] text-white shadow-md shadow-[#8957FF]/30'
                 : 'text-[#8F94AB] hover:text-white'
             }`}
           >
             <Terminal className="h-3.5 w-3.5" />
-            <span>Archives Dossiers ({totalNfts.length})</span>
+            <span>Archives ({totalNfts.length})</span>
           </button>
 
           <button
@@ -119,14 +119,14 @@ export const CollectionExplorer: React.FC<CollectionExplorerProps> = ({ onSelect
               sound.playClick();
               setActiveSubTab('id-creator');
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex-1 sm:flex-initial touch-target-min flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeSubTab === 'id-creator'
                 ? 'bg-[#36BFFF] text-slate-950 font-bold shadow-md shadow-[#36BFFF]/30'
                 : 'text-[#8F94AB] hover:text-white'
             }`}
           >
             <Fingerprint className="h-3.5 w-3.5" />
-            <span>Create ID Dossier Card</span>
+            <span>ID Card Studio</span>
           </button>
         </div>
       </div>

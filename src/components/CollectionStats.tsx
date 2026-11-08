@@ -14,7 +14,7 @@ export const CollectionStats: React.FC = () => {
   } = useWeb3();
 
   return (
-    <section className="relative py-10 sm:py-16 border-y border-white/[0.08] bg-[#0A0C16]/90 backdrop-blur-xl">
+    <section className="relative py-10 sm:py-16 border-y section-rule bg-[#0c1915]/90 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Section Header */}
@@ -42,9 +42,9 @@ export const CollectionStats: React.FC = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           
           {/* Card 1: Total Supply */}
-          <div className="rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-4 sm:p-6 space-y-2 tactical-box">
+          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
-              <span className="font-semibold text-white/90 text-xs sm:text-sm">Total Supply</span>
+              <span className="font-semibold text-white/90 text-xs sm:text-sm">Genesis Cap</span>
               <div className="p-1.5 sm:p-2 rounded-xl bg-[#8957FF]/15 text-[#8957FF]">
                 <Layers className="h-4 w-4" />
               </div>
@@ -52,14 +52,14 @@ export const CollectionStats: React.FC = () => {
             <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
               {ECOSYSTEM_RULES.TOTAL_NFT_SUPPLY.toLocaleString()}
             </div>
-            <div className="text-[11px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
+            <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
               <span>ERC-721</span>
               <span className="text-[#36BFFF] font-bold">100% Capped</span>
             </div>
           </div>
 
           {/* Card 2: Minted to Date */}
-          <div className="rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-4 sm:p-6 space-y-2 tactical-box">
+          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
               <span className="font-semibold text-white/90 text-xs sm:text-sm">Minted to Date</span>
               <div className="p-1.5 sm:p-2 rounded-xl bg-[#36BFFF]/15 text-[#36BFFF]">
@@ -69,14 +69,29 @@ export const CollectionStats: React.FC = () => {
             <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
               {totalMinted.toLocaleString()}
             </div>
-            <div className="text-[11px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
-              <span>Free: {freeMinted}</span>
-              <span>Paid: {paidMinted}</span>
+            {/* Micro Dual Progress Bar */}
+            <div className="space-y-1 pt-1">
+              <div className="h-1.5 w-full bg-[#080910] rounded-full overflow-hidden flex">
+                <div 
+                  className="bg-emerald-400 h-full"
+                  style={{ width: `${(freeMinted / ECOSYSTEM_RULES.TOTAL_NFT_SUPPLY) * 100}%` }}
+                  title={`Free: ${freeMinted}`}
+                />
+                <div 
+                  className="bg-[#36BFFF] h-full"
+                  style={{ width: `${(paidMinted / ECOSYSTEM_RULES.TOTAL_NFT_SUPPLY) * 100}%` }}
+                  title={`Paid: ${paidMinted}`}
+                />
+              </div>
+              <div className="text-[10px] text-[#8F94AB] flex items-center justify-between font-mono">
+                <span>Free: {freeMinted}</span>
+                <span>Paid: {paidMinted}</span>
+              </div>
             </div>
           </div>
 
           {/* Card 3: Unique Agent Holders */}
-          <div className="rounded-2xl sm:rounded-3xl border border-white/[0.08] bg-[#111321] p-4 sm:p-6 space-y-2 tactical-box">
+          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
               <span className="font-semibold text-white/90 text-xs sm:text-sm">Unique Holders</span>
               <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D]">
@@ -86,14 +101,17 @@ export const CollectionStats: React.FC = () => {
             <div className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-tight tabular-nums">
               {uniqueHolders.toLocaleString()}
             </div>
-            <div className="text-[11px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
-              <span>Agent IDs</span>
+            <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
+              <span className="flex items-center gap-1">
+                <ShieldCheck className="h-3 w-3 text-emerald-400" />
+                Agent IDs
+              </span>
               <span className="text-emerald-400 font-bold">Verified</span>
             </div>
           </div>
 
           {/* Card 4: 25M Gift Reserve */}
-          <div className="rounded-2xl sm:rounded-3xl border border-[#8957FF]/40 bg-[#111321] p-4 sm:p-6 space-y-2 tactical-box shadow-lg shadow-[#8957FF]/10">
+          <div className="premium-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-2.5 tactical-box shadow-lg shadow-[#75dca8]/10">
             <div className="flex items-center justify-between text-xs text-[#8F94AB]">
               <span className="font-semibold text-[#F2C46D] text-xs sm:text-sm">25M Gift Reserve</span>
               <div className="p-1.5 sm:p-2 rounded-xl bg-[#F2C46D]/15 text-[#F2C46D]">
@@ -103,9 +121,9 @@ export const CollectionStats: React.FC = () => {
             <div className="font-display text-2xl sm:text-4xl font-extrabold text-[#F2C46D] tracking-tight tabular-nums">
               {formatLegend(totalGiftDistributed)}
             </div>
-            <div className="text-[11px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
+            <div className="text-[10px] sm:text-xs text-[#8F94AB] pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
               <span>Distributed</span>
-              <span className="text-white font-bold">/ 25M Total</span>
+              <span className="text-emerald-400 font-bold">100% Pre-Funded</span>
             </div>
           </div>
 

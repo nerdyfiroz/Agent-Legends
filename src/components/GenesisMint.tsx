@@ -324,7 +324,7 @@ export const GenesisMint: React.FC<GenesisMintProps> = ({
                       setPaidQuantity(q);
                     }}
                     disabled={q > remainingPaidQuota}
-                    className={`flex-1 py-3 rounded-xl font-mono text-xs font-bold border transition-all cursor-pointer ${
+                    className={`flex-1 touch-target-min py-3 rounded-xl font-mono text-xs font-bold border transition-all cursor-pointer ${
                       paidQuantity === q
                         ? 'border-[#8957FF] bg-[#8957FF] text-white shadow-lg shadow-[#8957FF]/40 scale-[1.02]'
                         : q > remainingPaidQuota

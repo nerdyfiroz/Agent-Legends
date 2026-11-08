@@ -44,6 +44,21 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
     }
   };
 
+  const getRarityFoilStyle = (rarity: string) => {
+    switch (rarity) {
+      case 'Mythic':
+        return 'holo-foil-mythic border-[#F2C46D]/40';
+      case 'Legendary':
+        return 'holo-foil-legendary border-[#8957FF]/40';
+      case 'Epic':
+        return 'holo-foil-epic border-[#36BFFF]/40';
+      case 'Rare':
+        return 'holo-foil-rare border-emerald-400/40';
+      default:
+        return 'border-white/[0.1]';
+    }
+  };
+
   const handleScrollLeft = () => {
     sound.playClick();
     if (carouselRef.current) {
@@ -68,7 +83,7 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
   };
 
   return (
-    <section className="relative py-12 sm:py-20 bg-[#080910] border-t border-white/[0.06]">
+    <section className="relative py-12 sm:py-20 bg-[#07110e] border-t section-rule">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -131,10 +146,13 @@ export const FeaturedLegends: React.FC<FeaturedLegendsProps> = ({
                 sound.playClick();
                 onSelectNft(nft);
               }}
-              className="snap-center-item min-w-[280px] sm:min-w-0 tactical-box group relative cursor-pointer overflow-hidden rounded-[26px] border border-white/[0.08] bg-[#111321] p-3.5 hover:border-[#8957FF]/60 transition-all duration-300 shadow-xl shadow-black/60 hover:-translate-y-1 shrink-0 sm:shrink"
+              className={`snap-center-item min-w-[280px] sm:min-w-0 collectible-card group relative cursor-pointer overflow-hidden rounded-[26px] border bg-[#0C121A]/95 p-3.5 transition-all duration-300 shadow-xl shrink-0 sm:shrink ${getRarityFoilStyle(
+                nft.rarity
+              )}`}
             >
               {/* Scanline Layer */}
-              <div className="absolute inset-0 scanlines-overlay opacity-25 pointer-events-none"></div>
+              <div className="absolute inset-0 scanlines-overlay opacity-20 pointer-events-none"></div>
+              <div className="absolute inset-0 hologram-effect opacity-10 pointer-events-none"></div>
 
               {/* Character Image Viewport */}
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-[#080910] border border-white/[0.06]">

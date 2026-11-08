@@ -73,7 +73,7 @@ export const LiveActivityFeed: React.FC = () => {
                 sound.playClick();
                 setFilter(tab.id);
               }}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all cursor-pointer ${
+              className={`touch-target-min px-3.5 py-2 text-xs font-medium rounded-xl transition-all cursor-pointer flex items-center justify-center ${
                 filter === tab.id
                   ? 'bg-[#191D34] text-white shadow-sm border border-[#8957FF]/50 font-semibold'
                   : 'text-[#8F94AB] hover:text-white'

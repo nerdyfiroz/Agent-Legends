@@ -23,17 +23,26 @@
 
 :root {
   color-scheme: dark;
+  --legend-ink: #07110e;
+  --legend-ink-soft: #0c1915;
+  --legend-panel: rgba(15, 29, 24, 0.78);
+  --legend-panel-solid: #10211b;
+  --legend-line: rgba(184, 245, 208, 0.14);
+  --legend-mint: #b8f5d0;
+  --legend-mint-strong: #75dca8;
+  --legend-muted: #9aada3;
+  --legend-gold: #e7c889;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #080910;
+  background-color: var(--legend-ink);
   color: #F8F8FF;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(137, 87, 255, 0.08) 0%, transparent 60%),
-    radial-gradient(circle at 100% 50%, rgba(54, 191, 255, 0.04) 0%, transparent 50%),
-    linear-gradient(to bottom, rgba(8, 9, 16, 0.95), #080910);
+    radial-gradient(circle at 78% 6%, rgba(117, 220, 168, 0.12) 0%, transparent 32%),
+    radial-gradient(circle at 0% 40%, rgba(42, 94, 76, 0.18) 0%, transparent 38%),
+    linear-gradient(to bottom, rgba(7, 17, 14, 0.94), var(--legend-ink));
   background-attachment: fixed;
 }
 
@@ -233,4 +242,140 @@ h1, h2, h3, h4, .font-display {
   min-width: 48px;
 }
 
+/* Premium protocol layer: shared surfaces used by the redesigned landing experience. */
+.cinematic-hero {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 75% 25%, rgba(117, 220, 168, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 20% 60%, rgba(54, 191, 255, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% -10%, rgba(137, 87, 255, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(7, 17, 14, 0.94) 0%, rgba(7, 17, 14, 0.88) 50%, var(--legend-ink) 100%);
+}
+
+.cinematic-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 25%;
+  z-index: 1;
+  background: linear-gradient(to bottom, transparent, var(--legend-ink));
+  pointer-events: none;
+}
+
+.premium-panel {
+  background: linear-gradient(145deg, rgba(16, 33, 27, 0.82), rgba(8, 18, 14, 0.9));
+  border: 1px solid var(--legend-line);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.mint-button {
+  background: linear-gradient(135deg, #c4f8d7 0%, #75dca8 100%);
+  color: #07110e;
+  box-shadow: 0 10px 30px -5px rgba(117, 220, 168, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms ease, background 180ms ease;
+}
+
+.mint-button:hover {
+  background: linear-gradient(135deg, #d8fae5 0%, #8de4b8 100%);
+  box-shadow: 0 16px 40px -4px rgba(117, 220, 168, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.mint-button:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 6px 20px -2px rgba(117, 220, 168, 0.3);
+}
+
+.explore-button {
+  border-color: rgba(184, 245, 208, 0.22);
+  background: rgba(184, 245, 208, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.explore-button:hover {
+  border-color: rgba(184, 245, 208, 0.5);
+  background: rgba(184, 245, 208, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(117, 220, 168, 0.2);
+}
+
+.explore-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.hero-art {
+  box-shadow: 0 0 0 1px rgba(184, 245, 208, 0.2), 0 35px 80px -15px rgba(0, 0, 0, 0.8), 0 0 70px -10px rgba(117, 220, 168, 0.25);
+}
+
+.section-rule {
+  border-color: rgba(184, 245, 208, 0.1);
+}
+
+/* Collectible Physical Card Aesthetics */
+.collectible-card {
+  position: relative;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  will-change: transform;
+}
+
+.collectible-card:hover {
+  transform: translateY(-4px);
+}
+
+.holo-foil-mythic {
+  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(242, 196, 109, 0.25);
+  border-color: rgba(242, 196, 109, 0.45);
+}
+
+.holo-foil-legendary {
+  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(137, 87, 255, 0.25);
+  border-color: rgba(137, 87, 255, 0.45);
+}
+
+.holo-foil-epic {
+  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(54, 191, 255, 0.25);
+  border-color: rgba(54, 191, 255, 0.45);
+}
+
+.holo-foil-rare {
+  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(117, 220, 168, 0.25);
+  border-color: rgba(117, 220, 168, 0.45);
+}
+
+/* Atmospheric Mesh Background */
+.ambient-mesh {
+  background-image: 
+    radial-gradient(circle at 80% 10%, rgba(117, 220, 168, 0.08) 0%, transparent 35%),
+    radial-gradient(circle at 10% 40%, rgba(54, 191, 255, 0.06) 0%, transparent 32%),
+    radial-gradient(circle at 60% 80%, rgba(137, 87, 255, 0.07) 0%, transparent 35%);
+}
+
+@media (max-width: 639px) {
+  body {
+    background-image:
+      radial-gradient(circle at 85% 4%, rgba(117, 220, 168, 0.12), transparent 45%),
+      radial-gradient(circle at 15% 45%, rgba(54, 191, 255, 0.07), transparent 35%),
+      linear-gradient(to bottom, rgba(7, 17, 14, 0.98), var(--legend-ink));
+  }
+
+  .cinematic-hero {
+    background:
+      radial-gradient(circle at 70% 28%, rgba(117, 220, 168, 0.2), transparent 42%),
+      radial-gradient(circle at 20% 65%, rgba(54, 191, 255, 0.12), transparent 36%),
+      linear-gradient(180deg, rgba(7, 17, 14, 0.96) 0%, rgba(7, 17, 14, 0.75) 50%, var(--legend-ink) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 

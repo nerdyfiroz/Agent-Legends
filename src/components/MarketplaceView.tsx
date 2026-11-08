@@ -179,7 +179,7 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({ onSelectNft })
                     <button
                       onClick={() => handleCancel(item.id)}
                       disabled={loadingId === item.id}
-                      className="w-full rounded-2xl border border-rose-500/40 bg-rose-500/10 py-3 text-xs font-semibold text-rose-400 hover:bg-rose-500/20 transition-colors cursor-pointer"
+                      className="touch-target-min w-full rounded-2xl border border-rose-500/40 bg-rose-500/10 py-3 text-xs font-semibold text-rose-400 hover:bg-rose-500/20 active:scale-95 transition-all cursor-pointer"
                     >
                       {loadingId === item.id ? 'Cancelling...' : 'Cancel My Listing'}
                     </button>
@@ -187,7 +187,7 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({ onSelectNft })
                     <button
                       onClick={() => handleBuy(item)}
                       disabled={loadingId === item.id}
-                      className="w-full rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] py-3 text-xs font-bold text-white shadow-xl shadow-[#8957FF]/25 hover:opacity-95 transition-opacity cursor-pointer"
+                      className="touch-target-min w-full rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] py-3 text-xs font-bold text-white shadow-xl shadow-[#8957FF]/25 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
                     >
                       {loadingId === item.id ? 'Settling with Escrow...' : `Buy for ${item.priceBnb} BNB`}
                     </button>

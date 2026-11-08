@@ -9,3 +9,6 @@ bun.lock
 bun.lockb
 .env*
 !.env.example
+
+powershell.cmd
+*.tsbuildinfo
