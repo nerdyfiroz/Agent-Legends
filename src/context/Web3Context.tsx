@@ -200,12 +200,45 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     allNfts,
   ]);
 
-  // Periodic simulated block progression & indexer heartbeats
+  // Live Backend SSE Event Stream & Stats Sync
   useEffect(() => {
-    const timer = setInterval(() => {
-      setLatestBlock((prev) => prev + 1);
-    }, 4000);
-    return () => clearInterval(timer);
+    // 1. Fetch initial live stats from backend
+    fetch('/api/stats')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.latestBlock) setLatestBlock(data.latestBlock);
+        if (data.freeMinted) setFreeMinted(data.freeMinted);
+        if (data.paidMinted) setPaidMinted(data.paidMinted);
+        if (data.uniqueHolders) setUniqueHolders(data.uniqueHolders);
+      })
+      .catch(() => {});
+
+    // 2. Subscribe to real-time Server-Sent Events (SSE) stream
+    if (typeof window !== 'undefined' && window.EventSource) {
+      const eventSource = new EventSource('/api/events/stream');
+
+      eventSource.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'BLOCK_UPDATE' && data.blockNumber) {
+            setLatestBlock(data.blockNumber);
+          } else if (data.type === 'MINT_FREE' || data.type === 'MINT_PAID' || data.type === 'INSTANT_GIFT') {
+            setActivityEvents((prev) => [data, ...prev]);
+          }
+        } catch {
+          // parse error ignore
+        }
+      };
+
+      return () => {
+        eventSource.close();
+      };
+    } else {
+      const timer = setInterval(() => {
+        setLatestBlock((prev) => prev + 1);
+      }, 4000);
+      return () => clearInterval(timer);
+    }
   }, []);
 
   const totalMinted = freeMinted + paidMinted;

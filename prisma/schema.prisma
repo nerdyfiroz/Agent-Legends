@@ -1,0 +1,257 @@
+// Prisma Schema for Agent Legends — BNB Smart Chain AI Agent Ecosystem
+// Normalized Schema for Blockchain State Indexing & Web3 Infrastructure
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Users & Profiles
+model User {
+  id              String         @id @default(uuid())
+  address         String         @unique // Primary EVM address (checksummed)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  wallets         Wallet[]
+  agentIdRecord   AgentIdRecord?
+  nfts            NFT[]
+  mintEvents      MintEvent[]
+  tokenEvents     TokenEvent[]
+  rewardGifts     RewardGift[]
+  listings        MarketplaceListing[]
+  purchases       MarketplaceTransaction[] @relation("BuyerTransactions")
+  sales           MarketplaceTransaction[] @relation("SellerTransactions")
+  reputation      AgentReputation?
+  achievements    Achievement[]
+}
+
+// 2. Wallets bound to an account
+model Wallet {
+  id              String         @id @default(uuid())
+  address         String         @unique
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chainId         Int            @default(56) // 56 = BSC Mainnet, 97 = BSC Testnet
+  isPrimary       Boolean        @default(false)
+  lastActiveBlock BigInt?
+  createdAt       DateTime       @default(now())
+}
+
+// 3. Canonical Binance Agent IDs
+model AgentIdRecord {
+  id              String         @id @default(uuid())
+  agentId         String         @unique // e.g. AGENT-BSC-8821
+  userId          String         @unique
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isVerified      Boolean        @default(true)
+  verifiedAt      DateTime       @default(now())
+  freeMintClaimed Boolean        @default(false)
+  paidMintsCount  Int            @default(0) // Max 6
+  legendGiftsTotal BigInt        @default(0) // Cumulative instant LEGEND gifts
+}
+
+// 4. Genesis NFTs (ERC-721)
+model NFT {
+  id              String         @id @default(uuid())
+  tokenId         Int            @unique // 1 to 3333
+  name            String
+  characterClass  String         // Cyber Operative, Titan Mech, Phantom Scout, Valkyrie Vanguard, Chrono Sentinel
+  rarity          String         // Mythic, Legendary, Epic, Rare, Common
+  rank            Int
+  imageUri        String
+  metadataUri     String         // IPFS URI
+  evolutionLevel  Int            @default(1)
+  powerScore      Int            @default(500)
+  ownerAddress    String
+  owner           User           @relation(fields: [ownerAddress], references: [address])
+  mintTxHash      String
+  mintBlock       BigInt
+  isListed        Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  transfers       NFTTransfer[]
+  listings        MarketplaceListing[]
+  escrowJobs      EscrowJob[]
+
+  @@index([ownerAddress])
+  @@index([rarity])
+  @@index([characterClass])
+}
+
+// 5. NFT Transfers
+model NFTTransfer {
+  id              String         @id @default(uuid())
+  nftId           String
+  nft             NFT            @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  tokenId         Int
+  fromAddress     String
+  toAddress       String
+  txHash          String
+  blockNumber     BigInt
+  logIndex        Int
+  timestamp       DateTime       @default(now())
+
+  @@unique([txHash, logIndex])
+  @@index([tokenId])
+  @@index([fromAddress])
+  @@index([toAddress])
+}
+
+// 6. Mint Events (Free and Paid)
+model MintEvent {
+  id              String         @id @default(uuid())
+  tokenId         Int            @unique
+  minterAddress   String
+  minter          User           @relation(fields: [minterAddress], references: [address])
+  agentId         String
+  isFree          Boolean
+  paidAmountBnb   Decimal?       @db.Decimal(18, 6) // 0.001 for paid
+  instantGiftTokens BigInt       // 5,000 for free, 10,000 for paid
+  txHash          String         @unique
+  blockNumber     BigInt
+  logIndex        Int
+  confirmed       Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+
+  @@index([minterAddress])
+  @@index([blockNumber])
+}
+
+// 7. Token Events ($LEGEND BEP-20)
+model TokenEvent {
+  id              String         @id @default(uuid())
+  eventType       String         // TRANSFER, BURN_EVOLUTION, GIFT_DISPATCH
+  fromAddress     String
+  toAddress       String
+  amount          BigInt
+  userId          String?
+  user            User?          @relation(fields: [userId], references: [id])
+  txHash          String
+  blockNumber     BigInt
+  logIndex        Int
+  timestamp       DateTime       @default(now())
+
+  @@unique([txHash, logIndex])
+  @@index([fromAddress])
+  @@index([toAddress])
+}
+
+// 8. 25M Gift Reserve Dispatches
+model RewardGift {
+  id              String         @id @default(uuid())
+  recipientAddress String
+  recipient       User           @relation(fields: [recipientAddress], references: [address])
+  agentId         String
+  nftTokenId      Int
+  giftType        String         // FREE_MINT_GIFT (5,000) or PAID_MINT_GIFT (10,000)
+  legendAmount    BigInt
+  vaultAddress    String
+  txHash          String
+  blockNumber     BigInt
+  dispatchedAt    DateTime       @default(now())
+
+  @@unique([txHash, nftTokenId])
+  @@index([recipientAddress])
+}
+
+// 9. Marketplace Listings
+model MarketplaceListing {
+  id              String         @id @default(uuid())
+  nftId           String
+  nft             NFT            @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  tokenId         Int
+  sellerAddress   String
+  seller          User           @relation(fields: [sellerAddress], references: [address])
+  priceBnb        Decimal        @db.Decimal(18, 6)
+  status          String         @default("ACTIVE") // ACTIVE, SOLD, CANCELLED
+  txHash          String
+  blockNumber     BigInt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  transactions    MarketplaceTransaction[]
+
+  @@index([status])
+  @@index([sellerAddress])
+}
+
+// 10. Marketplace Escrow Settlements
+model MarketplaceTransaction {
+  id              String         @id @default(uuid())
+  listingId       String
+  listing         MarketplaceListing @relation(fields: [listingId], references: [id])
+  tokenId         Int
+  buyerAddress    String
+  buyer           User           @relation("BuyerTransactions", fields: [buyerAddress], references: [address])
+  sellerAddress   String
+  seller          User           @relation("SellerTransactions", fields: [sellerAddress], references: [address])
+  settledPriceBnb Decimal        @db.Decimal(18, 6)
+  escrowContract  String
+  txHash          String         @unique
+  blockNumber     BigInt
+  settledAt       DateTime       @default(now())
+}
+
+// 11. Autonomous Agent Escrow Jobs
+model EscrowJob {
+  id              String         @id @default(uuid())
+  nftId           String
+  nft             NFT            @relation(fields: [nftId], references: [id])
+  jobType         String
+  escrowBnb       Decimal        @db.Decimal(18, 6)
+  escrowLegend    BigInt
+  status          String         @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED, DISPUTED
+  createdAt       DateTime       @default(now())
+  completedAt     DateTime?
+}
+
+// 12. Agent Reputation Metrics
+model AgentReputation {
+  id              String         @id @default(uuid())
+  userId          String         @unique
+  user            User           @relation(fields: [userId], references: [id])
+  reputationScore Int            @default(100)
+  questsCompleted Int            @default(0)
+  evolutionSum    Int            @default(1)
+  verifiedHoldings Int           @default(0)
+  updatedAt       DateTime       @updatedAt
+}
+
+// 13. Achievement Badges
+model Achievement {
+  id              String         @id @default(uuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id])
+  badgeKey        String
+  title           String
+  unlockedAt      DateTime       @default(now())
+}
+
+// 14. Treasury Vault Transactions
+model TreasuryTransaction {
+  id              String         @id @default(uuid())
+  vaultAddress    String
+  targetAddress   String
+  amountLegend    BigInt
+  purpose         String         // GIFT_RESERVE_DISPATCH, LIQUIDITY_SEED
+  txHash          String         @unique
+  blockNumber     BigInt
+  timestamp       DateTime       @default(now())
+}
+
+// 15. Blockchain Indexer Block Progress (Idempotency & Reorg Protection)
+model IndexedBlock {
+  id              String         @id @default(uuid())
+  blockNumber     BigInt         @unique
+  blockHash       String         @unique
+  parentHash      String
+  chainId         Int            @default(56)
+  eventCount      Int            @default(0)
+  status          String         @default("CONFIRMED") // PENDING, CONFIRMED, REORGANIZED
+  indexedAt       DateTime       @default(now())
+
+  @@index([blockNumber])
+}
