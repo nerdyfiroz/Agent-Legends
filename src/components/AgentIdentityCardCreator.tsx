@@ -155,48 +155,80 @@ export const AgentIdentityCardCreator: React.FC = () => {
             </div>
           </div>
 
-          {/* 1-Tap Viral Social Sharing Strip */}
-          <div className="space-y-3 pt-3 border-t border-white/[0.08]">
-            <div className="text-xs font-mono font-bold text-[#8F94AB] uppercase tracking-wider">
-              1-Tap Viral Share
+            {/* Public Agent Profile Link (Viral Share) */}
+            <div className="rounded-2xl bg-[#080910] border border-white/[0.08] p-3.5 space-y-2">
+              <div className="flex items-center justify-between text-xs font-mono text-[#8F94AB]">
+                <span className="flex items-center gap-1.5 text-[#36BFFF]">
+                  <Fingerprint className="h-3.5 w-3.5" />
+                  PUBLIC AGENT DOSSIER URL
+                </span>
+                <span className="text-[10px] text-emerald-400 font-bold">LIVE ON-CHAIN</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={`https://agentlegends.xyz/agent/${encodeURIComponent(callsign.toLowerCase())}`}
+                  className="w-full bg-[#111321] text-xs font-mono text-white/90 px-3 py-2 rounded-xl border border-white/[0.06] select-all focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://agentlegends.xyz/agent/${encodeURIComponent(callsign.toLowerCase())}`);
+                    setCopied(true);
+                    sound.playSuccess();
+                    setTimeout(() => setCopied(false), 2500);
+                  }}
+                  className="touch-target-min px-3.5 py-2 rounded-xl bg-[#8957FF]/20 border border-[#8957FF]/40 text-[#8957FF] hover:bg-[#8957FF]/30 text-xs font-mono font-bold shrink-0 flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                onClick={handleShareTwitter}
-                className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#1D9BF0] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#1D9BF0]/25 hover:bg-[#1A8CD8] active:scale-95 transition-all cursor-pointer"
-              >
-                <Share2 className="h-4 w-4" />
-                <span>Share to X</span>
-              </button>
+            {/* 1-Tap Viral Social Sharing Strip */}
+            <div className="space-y-3 pt-3 border-t border-white/[0.08]">
+              <div className="text-xs font-mono font-bold text-[#8F94AB] uppercase tracking-wider">
+                1-Tap Viral Share
+              </div>
 
-              <button
-                onClick={handleShareTelegram}
-                className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#2AABEE] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#2AABEE]/25 hover:bg-[#229ED9] active:scale-95 transition-all cursor-pointer"
-              >
-                <Send className="h-4 w-4" />
-                <span>Telegram</span>
-              </button>
+              <div className="grid grid-cols-2 gap-2.5">
+                <button
+                  onClick={handleShareTwitter}
+                  className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#1D9BF0] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#1D9BF0]/25 hover:bg-[#1A8CD8] active:scale-95 transition-all cursor-pointer"
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span>Share to X</span>
+                </button>
+
+                <button
+                  onClick={handleShareTelegram}
+                  className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#2AABEE] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#2AABEE]/25 hover:bg-[#229ED9] active:scale-95 transition-all cursor-pointer"
+                >
+                  <Send className="h-4 w-4" />
+                  <span>Telegram</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                <button
+                  onClick={handleCopyCipher}
+                  className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#171A2B] border border-white/[0.1] px-4 py-3 text-xs font-semibold text-white hover:border-[#8957FF] active:scale-95 transition-all cursor-pointer"
+                >
+                  {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4 text-[#8957FF]" />}
+                  <span>{copied ? 'Copied!' : 'Copy Dossier'}</span>
+                </button>
+
+                <button
+                  onClick={handleDownloadCard}
+                  className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#8957FF]/30 active:scale-95 transition-all cursor-pointer"
+                >
+                  {downloaded ? <Check className="h-4 w-4 text-emerald-400" /> : <Download className="h-4 w-4" />}
+                  <span>{downloaded ? 'Card Saved!' : 'Download Card'}</span>
+                </button>
+              </div>
             </div>
-
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                onClick={handleCopyCipher}
-                className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-[#171A2B] border border-white/[0.1] px-4 py-3 text-xs font-semibold text-white hover:border-[#8957FF] active:scale-95 transition-all cursor-pointer"
-              >
-                {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4 text-[#8957FF]" />}
-                <span>{copied ? 'Copied!' : 'Copy Dossier'}</span>
-              </button>
-
-              <button
-                onClick={handleDownloadCard}
-                className="touch-target-min flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#8957FF] to-[#36BFFF] px-4 py-3 text-xs font-bold text-white shadow-lg shadow-[#8957FF]/30 active:scale-95 transition-all cursor-pointer"
-              >
-                {downloaded ? <Check className="h-4 w-4 text-emerald-400" /> : <Download className="h-4 w-4" />}
-                <span>{downloaded ? 'Card Saved!' : 'Download Card'}</span>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Mobile-Ready Social Card Preview */}

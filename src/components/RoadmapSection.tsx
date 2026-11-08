@@ -73,34 +73,35 @@ export const RoadmapSection: React.FC = () => {
           {/* Glowing connector track */}
           <div className="hidden md:block absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-gradient-to-r from-[#F2C46D] via-[#8957FF] to-[#36BFFF] opacity-30"></div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 relative z-10">
             {phases.map((item, idx) => {
               const isSelected = activePhaseIdx === idx;
               return (
-                <div
+                <button
+                  type="button"
                   key={item.phase}
                   onClick={() => {
                     sound.playClick();
                     setActivePhaseIdx(idx);
                   }}
-                  className={`glass-card rounded-2xl p-6 cursor-pointer transition-all duration-300 relative ${
+                  className={`text-left w-full touch-target-min glass-card rounded-2xl p-5 sm:p-6 transition-all duration-300 relative cursor-pointer ${
                     isSelected
-                      ? 'border-[#8957FF] bg-[#171A2B] shadow-xl shadow-[#8957FF]/20 -translate-y-1'
-                      : 'hover:border-white/[0.15]'
+                      ? 'border-[#8957FF] bg-[#171A2B] shadow-xl shadow-[#8957FF]/20 -translate-y-0.5 ring-1 ring-[#8957FF]/50'
+                      : 'hover:border-white/[0.15] bg-[#111321]/60'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-3.5">
                     <span className="font-mono text-xs font-bold text-[#8F94AB]">{item.phase}</span>
-                    <span className={`rounded-md border px-2 py-0.5 text-[10px] font-mono font-semibold ${item.statusColor}`}>
+                    <span className={`rounded-md border px-2.5 py-1 text-[10px] font-mono font-bold ${item.statusColor}`}>
                       {item.tag}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3 mb-2.5">
                     <div className="p-2.5 rounded-xl bg-[#080910] border border-white/[0.06] shrink-0">
                       {item.icon}
                     </div>
-                    <h3 className="font-display text-base font-bold text-white leading-snug">
+                    <h3 className="font-display text-sm sm:text-base font-bold text-white leading-snug">
                       {item.title}
                     </h3>
                   </div>
@@ -108,7 +109,7 @@ export const RoadmapSection: React.FC = () => {
                   <p className="text-xs text-[#8F94AB] line-clamp-2 leading-relaxed">
                     {item.summary}
                   </p>
-                </div>
+                </button>
               );
             })}
           </div>
